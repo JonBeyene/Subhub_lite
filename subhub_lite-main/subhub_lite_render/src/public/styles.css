@@ -1,0 +1,201 @@
+
+/* CHECK WHAT box-shadow is */
+
+/* Background for every page on the site */
+body {
+    background-color: black; 
+    color: white;           
+    font-family: Arial, sans-serif; 
+    margin: 0;
+    padding-top: 50px; 
+}
+
+/* Top Hotbar Setup */
+.topbar {
+    background-color: #333; 
+    color: white;
+    padding: 10px 0;
+    width: 100%; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    text-align: center;
+    display: flex; 
+    justify-content: space-around; 
+    align-items: center; 
+}
+
+/* Login Box */
+.login-container {
+    background-color: #333; 
+    color: white; 
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 300px;
+    margin: auto; 
+}
+
+/* Create Account Button and Form */
+.login-container form input, .login-container form button {
+    margin: 10px 0;
+    width: calc(100% - 20px);
+    padding: 8px;
+    box-sizing: border-box;
+    background-color: #222; 
+    border: 1px solid #555; 
+    color: white; 
+}
+
+/* Create Account / Already Have an account Button */
+.login-container form input:focus, .login-container form button:focus {
+    border-color: #06AED5; 
+}
+
+/* Subscription form box */
+.subscription-container {
+    background-color: #333; 
+    color: white; 
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 400px; 
+    margin: auto; 
+    margin-top: 60px;
+}
+
+/* Input bars in the Add-Subscription box */
+.subscription-container form input, .subscription-container form select, .subscription-container form button {
+    margin: 10px 0;
+    width: 100%; 
+    padding: 8px;
+    box-sizing: border-box;
+    background-color: rgba(34, 34, 34, 0.8); 
+    border: 1px solid #555; 
+    color: white; 
+}
+
+/* Highlights what you are hovering over for Add-Subscription dropdowns */
+.subscription-container form input:focus, .subscription-container form select:focus, .subscription-container form button:focus {
+    border-color: #06AED5; 
+}
+
+/* Subscription boxes for My-Subscription page */
+.subscription-box {
+    background-color: #444; 
+    border: 1px solid #666; 
+    padding: 15px;
+    margin-top: 20px; 
+    border-radius: 8px; 
+    color: white; 
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+}
+
+/* Subscription Name configuration */
+.subscription-box h3 {
+    color: #AAD;
+    margin-bottom: 10px; 
+}
+
+/* Subscription info configuration*/
+.subscription-box p {
+    margin: 5px 0; 
+    line-height: 1.4; 
+    font-size: 14px;
+}
+
+/* Trash can icon to delete subscriptions on My-Subscription page*/
+.delete-icon {
+    color: #f44336; 
+    cursor: pointer; 
+    float: right; 
+    margin-left: 10px; 
+    font-size: 20px;
+}
+
+/* Alert boxes */
+.alert-box {
+    background-color: #444; 
+    border: 1px solid #666; 
+    padding: 15px; 
+    margin: 10px 0; 
+    border-radius: 8px;
+}
+
+/* Text in alert boxes*/
+.alert-box p {
+    font-size: 16px;
+    color: white;
+}
+
+/* Budget boxes (Weekly/Monethly/Annually boxes) */
+.container.budget-container {
+    display: flex; 
+    justify-content: space-around;
+    align-items: center; 
+}
+
+/* Stylistic decisions for budget bopxes */
+.budget-box {
+    width: 30%; 
+    padding: 20px; 
+    background-color: #444; 
+    border: 1px solid #ccc; 
+    border-radius: 8px; 
+    text-align: center;
+    font-size: 1.2em;
+}
+
+/* Top box for Total Annual Cost*/
+.container.total-annual {
+    display: flex; 
+    justify-content: space-around; 
+    align-items: center; 
+}
+
+/* Stylistic choices for top box for Total Annual Cost */
+.total-annual-cost-box {
+    width: 100%; 
+    text-align: center; 
+    padding: 20px; 
+    margin-bottom: 10px; 
+    background-color: #444; 
+    border: 1px solid #ccc; 
+    font-size: 2.5em; 
+    border-radius: 8px;
+}
+
+/* Set up for the Pie Chart on Budget Page */
+#categoryChart {
+    max-width: 470px; 
+    max-height: 470px; 
+}
+
+/* Colors links */
+a {
+    color: lightblue;
+    text-decoration: none;
+}
+
+/* Underline links*/
+a:hover {
+    text-decoration: underline;
+}
+
+
+/*
+fixed: 
+
+home
+login
+register (fix if username is already in database)
+add_subscriptions
+alerts
+budget
+
+under progress
+fix function names
+*/
+

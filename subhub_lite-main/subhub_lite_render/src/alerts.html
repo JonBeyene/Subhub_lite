@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alerts</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        // Alert period calculation is done in the server.js file
+        // This function gets the value of the days left until the reoccuring payment is due
+        // Also formats the inner html for how the subscription, cost, and days left should appear
+        function fetchAlerts() {
+            fetch('/api/alerts')
+            .then(response => response.json())
+            .then(alerts => {
+                const container = document.querySelector('.container');
+                alerts.forEach(alert => {
+                    const div = document.createElement('div');
+                    div.className = 'alert-box';
+                    div.innerHTML = `<p><strong>${alert.daysLeft+1} days left</strong> until your next payment for ${alert.type} which costs $${alert.cost.toFixed(2)}.</p>`;
+                    container.appendChild(div);
+                });
+            })
+            .catch(error => console.error('Error with alerts:', error));
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchAlerts);
+    </script>
+</head>
+<body>
+    <div class="topbar">
+        <a href="/">My Subscriptions</a>
+        <a href="/add_subscriptions">Add Subscriptions</a>
+        <a href="/alerts">Alerts</a>
+        <a href="/budget">Budget</a>
+        <a href="/logout">Logout</a>
+    </div>
+    <div class="container">
+        <h1>Alerts</h1>
+    </div>
+</body>
+</html>
+
+

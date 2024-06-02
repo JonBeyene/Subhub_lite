@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <h1>Login!</h1>
+        <form action="/auth" method="post">
+            Username: <input type="text" name="username" required><br>
+            Password: <input type="password" name="password" required><br>
+            <button type="submit">Login</button>
+        </form>
+        <a href="/register">Create an account</a>
+        <div id="error-message" style="color: red; display: none;"></div>
+    </div>
+    <script>
+        // Login authenticatio that uses the Login Authentication Route in server.js
+        // Basically checking if a user already exists in the databse
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            const error = params.get('error');
+            if (error) {
+                const errorMessageDiv = document.getElementById('error-message');
+                errorMessageDiv.textContent = decodeURIComponent(error.replace(/\+/g, ' '));
+                errorMessageDiv.style.display = 'block'; 
+            }
+        };
+    </script>
+</body>
+</html>
+
+
+
+

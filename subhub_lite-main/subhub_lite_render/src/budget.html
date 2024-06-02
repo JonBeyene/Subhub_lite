@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Budget</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!--Link for css for pie chart setup-->
+
+    <script>
+        // Budget calculation is done in server.js 
+        // Finds the weekly, monthly, and annual costs for a user
+        // Aggregates these values to see a users total annual expenses
+        // Splits the cost into subgroups based off subscription type (streaming, delivery, etc)
+        // Creates a pie chart for easy visualization of what subscription type is the largest chunk of budger
+        function fetchBudget() {
+            fetch('/api/budget')
+            .then(response => response.json())
+            .then(budget => {
+                updateBudgetDisplays(budget);
+                drawPieChart(budget.categories);
+            })
+            .catch(error => console.error('Error with budget', error));
+        }
+        
+        // Function that gets the new cost data and updates the weekly, monthly, and annual costs
+        // Also does the calculation here to compute the total annual cost (top of page display value)
+        function updateBudgetDisplays(budget) {
+            const weeklyBudget = document.getElementById('weekly-budget');
+            const monthlyBudget = document.getElementById('monthly-budget');
+            const annualBudget = document.getElementById('annual-budget');
+            const totalAnnualCost = document.getElementById('total-annual-cost');
+    
+            const totalAnnual = (budget.weekly * 52) + (budget.monthly * 12) + budget.annually;
+    
+            weeklyBudget.textContent = `Weekly Costs: $${budget.weekly.toFixed(2)}`;
+            monthlyBudget.textContent = `Monthly Costs: $${budget.monthly.toFixed(2)}`;
+            annualBudget.textContent = `Annual Costs: $${budget.annually.toFixed(2)}`;
+            totalAnnualCost.textContent = `Total Annual Cost: $${totalAnnual.toFixed(2)}`;
+        }
+    
+        function drawPieChart(categoryData) {
+            const ctx = document.getElementById('categoryChart').getContext('2d');
+            const labels = Object.keys(categoryData);
+            const values = Object.values(categoryData).map((value, index) => {
+                // Annualize weekly values
+                if (labels[index].toLowerCase().includes('weekly')) {
+                    return value * 52;
+                // Annualize monthyl values
+                } else if (labels[index].toLowerCase().includes('monthly')) {
+                    return value * 12;
+                }
+                // No change to annual values
+                return value; 
+            });
+
+            const total = values.reduce((sum, value) => sum + value, 0);
+            // Calculates percentages
+            const percentageData = values.map(value => ((value / total) * 100).toFixed(2));
+            
+            colorBlocks = [
+                'rgba(255, 99, 132)',
+                'rgba(54, 162, 235)',
+                'rgba(255, 206, 86)',
+                'rgba(75, 192, 192)'
+            ]
+            const data = {
+                labels: labels.map((label, index) => `${label}: ${percentageData[index]}%`),
+                datasets: [{
+                    label: 'Annualized Category Cost',
+                    data: values,
+                    backgroundColor: colorBlocks,
+                    borderWidth: 1
+                }]
+            };
+            // Makes pie chart 
+            new Chart(ctx, {
+                type: 'pie',
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: {
+                                color: 'white'
+                            },
+                            position: 'top'
+                        },
+                        title: {
+                            display: true,
+                            text: "Subscription Category Breakdown (Annualized)",
+                            color: 'white'
+                        },
+                    }
+                }
+            });
+        }
+        document.addEventListener('DOMContentLoaded', fetchBudget);
+    </script>
+    
+    
+    
+
+</head>
+<body>
+    <div class="topbar">
+        <a href="/">My Subscriptions</a>
+        <a href="/add_subscriptions">Add Subscriptions</a>
+        <a href="/alerts">Alerts</a>
+        <a href="/budget">Budget</a>
+        <a href="/logout">Logout</a>
+    </div>
+    <div class="container total-annual">
+        <div id="total-annual-cost" class="total-annual-cost-box">Total Annual Cost: Calculating...</div>
+    </div>
+    <div class="container budget-container">
+        <div id="weekly-budget" class="budget-box">Weekly: Loading...</div>
+        <div id="monthly-budget" class="budget-box">Monthly: Loading...</div>
+        <div id="annual-budget" class="budget-box">Annually: Loading...</div>
+    </div>
+    <center>
+        <div class="container">
+            <canvas id="categoryChart"></canvas>
+        </div>
+    </center>
+</body>
+</html>
+
+
+

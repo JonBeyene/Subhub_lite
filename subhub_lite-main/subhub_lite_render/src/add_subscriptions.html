@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Subscriptions</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="topbar">
+        <a href="/">My Subscriptions</a>
+        <a href="/add_subscriptions">Add Subscriptions</a>
+        <a href="/alerts">Alerts</a>
+        <a href="/budget">Budget</a>
+        <a href="/logout">Logout</a>
+    </div>
+    <!--- Add subcsription form -->
+    <div class="subscription-container">
+        <h1>Add Subscriptions</h1>
+        <form action="/submit_subscription" method="post">
+            <label for="subscription_type">Subscription Type:</label>
+            <select id="subscription_type" name="subscription_type">
+                <option value="Netflix">Netflix</option>
+                <option value="Hulu">Hulu</option>
+                <option value="Spotify">Spotify</option>
+                <option value="Amazon">Amazon</option>
+            </select><br>
+            
+            <!-- Cost -->
+            <label for="cost">Cost:</label>
+            <input type="number" id="cost" name="cost" step="0.01" placeholder="$" required><br>
+
+            <!-- Purchase Date -->
+            <label for="purchase_date">Purchase Date:</label>
+            <input type="date" id="purchase_date" name="purchase_date" required><br>
+            
+            <!-- When user wants to be reminded -->
+            <label for="reminder">Reminder Period:</label>
+            <select id="reminder" name="reminder">
+                <option value="1 day">1 Day</option>
+                <option value="3 days">3 Days</option>
+                <option value="1 week">1 Week</option>
+            </select><br>
+
+            <!-- How often are reoccuring payments -->
+            <label for="reoccurrence">Reoccurring Payment Period:</label>
+            <select id="reoccurrence" name="reoccurrence">
+                <option value="Weekly">Weekly</option>
+                <option value="Monthly">Monthly</option>
+                <option value="Annually">Annually</option>
+            </select><br>
+
+            <button type="submit">Add Subscription</button>
+        </form>
+    </div>
+</body>
+</html>
+
+
+
+
+
+

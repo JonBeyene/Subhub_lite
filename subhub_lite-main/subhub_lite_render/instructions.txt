@@ -1,0 +1,22 @@
+To run the site locally:
+
+1. download node.js https://nodejs.org/en
+2. open up terminal
+3. If not in directory already type 'cd downloads/subhub_lite
+4. type 'npm install'
+5. type 'npm install express sqlite3 express-session body-parser'
+6. type 'node server.js'
+7. Link to site 'http://localhost:3000'
+
+
+To clear database:
+
+1. Open up terminal
+2. If not in directory already type 'cd downloads/subhub_lite'
+3. Type in the temrinal 'sqlite3 database.sqlite'
+4. Type in the terminal 'DROP TABLE subscriptions;'
+5. Type in the terminal 'DROP TABLE users;'
+6. Type in the terminal '.exit'
+7. Type in the terminal 'node server.js'
+8. Link to site 'http://localhost:3000/'
+9. Database will now be completely cleared

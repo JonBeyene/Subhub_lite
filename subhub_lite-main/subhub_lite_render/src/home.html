@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <!-- Trash Can Icon Style Reference -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        // Javascript function in html to get a given users subscriptions 
+        function fetchSubscriptions() {
+            fetch('/api/subscriptions')
+                .then(response => response.json())
+                .then(subscriptions => {
+                    // Inner html to set up how the subscription elements are displayed
+                    const container = document.querySelector('.container');
+                    container.innerHTML = '<h1>Welcome Back!</h1>';
+                    subscriptions.forEach(sub => {
+                        const div = document.createElement('div');
+                        div.className = 'subscription-box';
+                        div.innerHTML = `
+                            <div class="subscription-content">
+                                <h3>${sub.type} Subscription</h3>
+                                <p><strong>Type:</strong> ${sub.type}</p>
+                                <p><strong>Cost:</strong> $${sub.cost.toFixed(2)}</p>
+                                <p><strong>Purchase Date:</strong> ${sub.purchase_date}</p>
+                                <p><strong>Reminder:</strong> ${sub.reminder}</p>
+                                <p><strong>Reoccurrence:</strong> ${sub.reoccurrence}</p>
+                            </div>
+                            <a href="#" class="delete-icon" data-id="${sub.id}" data-type="${sub.type}"><i class="fas fa-trash"></i></a>
+                        `;
+                        container.appendChild(div);
+
+                        // Event Listener that checks if the delete icon was pressed to then delete the subscription
+                        const deleteIcon = div.querySelector('.delete-icon');
+                        deleteIcon.addEventListener('click', function(event) {
+                            event.preventDefault();
+                            deleteSubscription(sub.id, div);
+                        });
+                    });
+                })
+        }
+        
+        // Function to delete a subscription for a given user
+        function deleteSubscription(subId, subBox) {
+            fetch(`/api/delete_subscription/${subId}`, { method: 'DELETE' })
+                .then(response => {
+                    if (response.ok) {
+                        // Remove the subscription box
+                        subBox.remove();
+                        
+                        // Redirect based on the subscription type
+                        const subType = subBox.querySelector('.delete-icon').getAttribute('data-type');
+                        redirectBasedOnType(subType);
+                    }
+                })
+        }
+
+        // Based on the subscription (ie: hulu, amazon, etc...), this function provides the correct url to their page
+        function redirectBasedOnType(subType) {
+            let url;
+            switch (subType.toLowerCase()) {
+                case 'netflix':
+                    url = 'https://www.netflix.com/login?nextpage=https%3A%2F%2Fwww.netflix.com%2Fcancelplan';
+                    break;
+                case 'hulu':
+                    url = 'https://auth.hulu.com/web/login/enter-email';
+                    break;
+                case 'spotify':
+                    url = 'https://accounts.spotify.com/en/login?continue=https%3A%2F%2Fwww.spotify.com%2Fus%2Faccount%2Foverview%2F';
+                    break;
+                case 'amazon':
+                    url = 'https://www.amazon.com/-/es/ap/signin?openid.pape.max_auth_age=3600&openid.return_to=https%3A%2F%2Fwww.amazon.com%2Fmyh%2Fhouseholds%3Flanguage%3Des&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.assoc_handle=usflex&openid.mode=checkid_setup&language=en_US&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0'; // CHECK AMAZON LINK NOT WORKING
+                    break;
+            }
+            
+            // Opens the correct url in a different tab based on teh subscription 
+            window.open(url, '_blank');
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchSubscriptions);
+    </script>
+</head>
+<body>
+    <div class="topbar">
+        <a href="/">My Subscriptions</a>
+        <a href="/add_subscriptions">Add Subscriptions</a>
+        <a href="/alerts">Alerts</a>
+        <a href="/budget">Budget</a>
+        <a href="/logout">Logout</a>
+    </div>
+    <div class="container">
+    </div>
+</body>
+</html>
+
+
+
+
+
+
